@@ -1,3 +1,7 @@
+-- Gabriel Fernandes Silva - 202064562C
+-- João Pedro de Carvalho Lima - 201965150AC
+
+
 import System.Random
 import Data.List
 import Data.Char
@@ -68,24 +72,34 @@ shuffle xs = do
 -- Função principal
 main :: IO ()
 main = do
+  putStrLn "Deseja gerar um segredo com repetição? (s para sim, qualquer outra para não)"
+  repetir <- getLine
   putStrLn "Bem-vindo ao jogo Mastermind!"
-  segredo <- gerarSegredo False
+  segredo <- gerarSegredo (repetir == "s")
   jogar 8 segredo
 
 -- Função para jogar o jogo
-jogar :: Int -> [Int] -> IO ()
+jogar :: Int -> [Int] -> IO () -- Número de tentativas restantes e segredo para ser descoberto
 jogar tentativas segredo
   | tentativas == 0 = do
     putStrLn ("Suas tentativas acabaram! O segredo era: " ++ show segredo)
   | otherwise = do
+    -- Solicita que o jogador insira uma entrada
     entrada <- coletarEntrada
+    -- Verifica se a entrada do jogador é válida
     if validarEntrada entrada then do
+      -- Gera a resposta com base na entrada do jogador e no segredo
       resposta <- gerarResposta segredo entrada
+      -- Imprime a resposta no formato adequado (O, -, ou X)
       putStrLn $ "Resposta: " ++ intercalate " " (map (\x -> if x == 1 then "O" else if x == 0 then "-" else "X") resposta)
+      -- Verifica se o jogador adivinhou o segredo completamente
       if all (== 1) resposta then
         putStrLn ("Parabéns! Você acertou o segredo!O segredo era: " ++ show segredo)
       else
+        -- Se o jogador não acertou o segredo, continua o jogo com tentativas restantes
         jogar (tentativas - 1) segredo
     else do
+      -- Se a entrada do jogador não for válida, exibe uma mensagem de erro
       putStrLn "Entrada inválida. Digite 4 dígitos válidos."
+      -- Continua o jogo com as mesmas tentativas e segredo
       jogar tentativas segredo
