@@ -32,10 +32,6 @@ doenca(bronquite, [dor_no_peito, falta_de_ar, inchaco, fadiga ]).
 doenca(asma, [dor_no_peito, falta_de_ar, inflamacao_nasal, inchaco ]).
 doenca(desvio_de_septo, [dificuldade_de_respirar, inflamacao_nasal, inchaco ]).
 
-% Predicados para manipulação de listas
-pertence(X, [X|_]).
-pertence(X, [_|T]) :- pertence(X, T).
-
 % Predicados para interação com o usuário
 perguntar(Sintoma) :-
     write('Você está sentindo '), write(Sintoma), write('? (s/n): '),
@@ -45,12 +41,6 @@ perguntar(Sintoma) :-
 processar_resposta(s, Sintoma) :- assertz(sintoma(Sintoma)).
 processar_resposta(n, _).
 processar_resposta(_, Sintoma) :- write('Resposta inválida. Responda com "s" para sim ou "n" para não.'), nl, perguntar(Sintoma).
-
-% Predicado para diagnóstico
-diagnostico(Doenca) :-
-    doenca(Doenca, Sintomas),
-    not(pertence(_, Sintomas)),
-    write('Baseado nos sintomas informados, parece que você tem '), write(Doenca), nl.
 
 % Predicado principal
 iniciar_diagnostico :-
