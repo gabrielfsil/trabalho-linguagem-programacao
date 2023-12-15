@@ -1,3 +1,7 @@
+% Gabriel Fernandes Silva - 202065562C
+% João Pedro de Carvalho Lima - 201965150AC
+
+
 % Base de Conhecimento
 doenca(gripe, [febre, dor_no_corpo, tosse, catarro, dor_de_cabeca]).
 doenca(dengue, [febre, dor_no_corpo, dor_de_cabeca, indisposicao]).
